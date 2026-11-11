@@ -1,0 +1,30 @@
+{% extends "leads/base.html" %}
+{% block title %}LeadFinder{% endblock %}
+{% block content %}
+  <div class="card">
+    <h2 style="margin-top:0;">টপিক দাও, লিড খুঁজে দিবো</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.topic.label_tag }}
+      {{ form.topic }}
+      <div class="help">{{ form.topic.help_text }}</div>
+      {% if form.topic.errors %}<div class="help" style="color:var(--bad)">{{ form.topic.errors }}</div>{% endif %}
+      <button type="submit">সার্চ শুরু করো</button>
+    </form>
+  </div>
+
+  {% if recent_jobs %}
+  <div class="section-title">Recent searches</div>
+  <div class="card">
+    {% for job in recent_jobs %}
+      <div class="job-row">
+        <a href="{% url 'leads:job_detail' job.id %}">{{ job.topic }}</a>
+        <div>
+          <span class="tag status">{{ job.status }}</span>
+          <span class="muted">· {{ job.valid_lead_count }} valid / {{ job.total_lead_count }} found</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,6 @@
+Django>=5.0,<7.0
+celery>=5.3
+redis>=5.0
+requests>=2.31
+beautifulsoup4>=4.12
+email-validator>=2.1

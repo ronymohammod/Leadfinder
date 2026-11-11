@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}LeadFinder{% endblock %}</title>
+{% block extra_head %}{% endblock %}
+<style>
+  :root {
+    --bg: #0f1115;
+    --surface: #171a21;
+    --surface-2: #1f232c;
+    --border: #2a2f3a;
+    --text: #e7e9ee;
+    --muted: #9aa1ae;
+    --accent: #4f8cff;
+    --good: #35c26b;
+    --bad: #e05d5d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 32px 20px 64px; }
+  header.top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+  header.top a { color: var(--text); text-decoration: none; font-weight: 700; font-size: 18px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  label { display: block; font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+  input[type=text], .topic-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text);
+    font-size: 15px;
+  }
+  .help { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+  button, .btn {
+    display: inline-block;
+    margin-top: 16px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .btn.secondary { background: var(--surface-2); border: 1px solid var(--border); color: var(--text); }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: 12.5px; text-transform: uppercase; letter-spacing: .03em; }
+  .tag { padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .tag.good { background: rgba(53,194,107,.15); color: var(--good); }
+  .tag.bad { background: rgba(224,93,93,.15); color: var(--bad); }
+  .tag.status { background: rgba(79,140,255,.15); color: var(--accent); }
+  .muted { color: var(--muted); }
+  .job-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .job-row:last-child { border-bottom: none; }
+  .job-row a { color: var(--text); text-decoration: none; font-weight: 600; }
+  .job-row a:hover { color: var(--accent); }
+  .section-title { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin: 30px 0 10px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a href="{% url 'leads:index' %}">🔎 LeadFinder</a>
+    </header>
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

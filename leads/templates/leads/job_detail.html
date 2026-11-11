@@ -1,0 +1,62 @@
+{% extends "leads/base.html" %}
+{% block title %}{{ job.topic }} — LeadFinder{% endblock %}
+{% block extra_head %}
+  {% if job.status == "pending" or job.status == "running" %}
+    <meta http-equiv="refresh" content="4">
+  {% endif %}
+{% endblock %}
+{% block content %}
+  <div class="card">
+    <h2 style="margin-top:0;">{{ job.topic }}</h2>
+    <p>
+      <span class="tag status">{{ job.status }}</span>
+      {% if job.status == "pending" or job.status == "running" %}
+        <span class="muted">— কাজ চলছে, পেজ অটো-রিফ্রেশ হবে...</span>
+      {% elif job.status == "failed" %}
+        <span style="color:var(--bad)">{{ job.error_message }}</span>
+      {% else %}
+        <span class="muted">{{ job.valid_lead_count }} valid email / {{ job.total_lead_count }} total found</span>
+      {% endif %}
+    </p>
+    {% if job.status == "done" and job.total_lead_count > 0 %}
+      <a class="btn secondary" href="{% url 'leads:export_csv' job.id %}">⬇ Export CSV</a>
+    {% endif %}
+    <a class="btn secondary" href="{% url 'leads:index' %}">← New search</a>
+  </div>
+
+  {% if leads %}
+  <div class="section-title">Leads</div>
+  <div class="card" style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Phone</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lead in leads %}
+        <tr>
+          <td>{{ lead.company_name|default:"—" }}</td>
+          <td>{{ lead.email }}</td>
+          <td>
+            {% if lead.is_valid_email %}
+              <span class="tag good">valid</span>
+            {% else %}
+              <span class="tag bad">check</span>
+            {% endif %}
+          </td>
+          <td>{{ lead.phone|default:"—" }}</td>
+          <td><a href="{{ lead.source_url }}" target="_blank" rel="noopener" class="muted">link ↗</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% elif job.status == "done" %}
+    <div class="card muted">এই টপিকে কোনো ভ্যালিড লিড পাওয়া যায়নি। টপিকটা আরেকটু নির্দিষ্ট করে আবার চেষ্টা করো।</div>
+  {% endif %}
+{% endblock %}
